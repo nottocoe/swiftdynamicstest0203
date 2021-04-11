@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    
+    <style>
+      th,td{
+        text-align: center;
+      }
+      h4{
+        text-align: center;
+      }
+    </style>
+
+  </head>
+  <body>
+    <table id="datatable_01" class="table table-striped table-bordered" style="width: 100%">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>Data</th>
+              <th>Timestamp</th>
+              <th>Data 2</th>
+          </tr>
+      </thead>
+      <tbody>
+          <% for(i = 0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].id %></td>
+              <td><%= data[i].data %></td>
+              <td><%= data[i].timestamp %></td>
+              <td><%= data[i].data2 %></td>
+            </tr>
+          <% } %>
+      </tbody>
+    </table>
+    <br>
+    <h4>Min = <%= min %>, Max = <%= max %></h4>
+    <h4>Average = <%= avg %></h4>
+    <h4>Next 1 day. Data will increase <%= pred %> records</h4>
+    <h4>Next 7 days. Data will increase <%= pred*7 %> records</h4><br>
+    <% if( page == 1 ){ %><center><button type="button" id="next" name="next" class="btn btn-primary" onclick="next()">NEXT</button></center> <% } else { %> 
+    <center><button type="button" id="previous" name="previous" class="btn btn-danger" onclick="previous()">PREVIOUS</button>     <button type="button" id="next" name="next" class="btn btn-primary" onclick="next()">NEXT</button></center><% } %>
+    <br><br>
+  </body>
+  <script>
+    $(document).ready( function () {
+      $('#datatable_01').DataTable({
+        paging: false
+      });
+    });
+  </script>
+  <script>
+    function previous() {
+      let current_page = <%= page %>;
+      current_page = current_page - 1;
+      location.replace("/data?page=" + current_page);
+    }
+
+    function next() {
+      let current_page = <%= page %>;
+      current_page = current_page + 1;
+      location.replace("/data?page=" + current_page);
+    }
+  </script>
+</html>
